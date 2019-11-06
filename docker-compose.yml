@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+
+  chat:
+    build: .
+    restart: always
+    networks:
+      - backend
+    volumes:
+      - ./:/mysite
+    depends_on:
+      - redis
+    ports:
+      - "8000:8000"
+
+
+  redis:
+    image: redis:2.8
+    restart: always
+    networks:
+      - backend
+
+networks:
+  backend:
