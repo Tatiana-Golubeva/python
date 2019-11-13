@@ -3,16 +3,22 @@
 <html>
 <head>
     <meta charset="utf-8"/>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <title>Chat Room</title>
 </head>
 <body>
-    <textarea id="chat-log" cols="100" rows="20"></textarea><br/>
-    <input id="chat-message-input" type="text" size="100"/><br/>
-    <input id="chat-message-submit" type="button" value="Send"/>
+    <textarea id="chat-log" cols="100" rows="20">
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+    </textarea><br/>
+    <form action="create_mes" method="post">
+        <input id="chat-message-input" type="text" size="100"/><br/>
+        <input id="chat-message-submit" type="button" value="Send"/>
+    </form>
 </body>
 <script>
     var roomName = {{ room_name_json }};
-
     var chatSocket = new WebSocket(
         'ws://' + window.location.host +
         '/ws/chat/' + roomName + '/');
@@ -33,13 +39,28 @@
             document.querySelector('#chat-message-submit').click();
         }
     };
-
+    function create_mes(message) {
+        $.ajax({
+            {#url: "http://127.0.0.1:8000/chat/lobby/",#}
+            url: "http://0.0.0.0:8000/chat/lobby/",
+            type: "POST",
+            data: {'mes': message},
+            success: function () {
+                console.log('success')
+            },
+            error: function (xht, msg, err) {
+                console.log('error', msg)
+            }
+        })
+    }
     document.querySelector('#chat-message-submit').onclick = function(e) {
         var messageInputDom = document.querySelector('#chat-message-input');
         var message = messageInputDom.value;
         chatSocket.send(JSON.stringify({
             'message': message
         }));
+        console.log(message);
+        create_mes(message);
 
         messageInputDom.value = '';
     };

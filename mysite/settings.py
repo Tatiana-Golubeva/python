@@ -24,10 +24,14 @@ SECRET_KEY = 's$f$1rt_+ieadc8jezr&3w=3@sw*9*_q!ocj8k1*v5d3y(e-ba'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+#LOCAL
+# ALLOWED_HOSTS = [
+#     '127.0.0.1'
+# ]
 
-ALLOWED_HOSTS = ['0.0.0.0']
-
-
+ALLOWED_HOSTS = [
+    '0.0.0.0'
+]
 # Application definition
 
 INSTALLED_APPS = [
@@ -45,7 +49,6 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -82,7 +85,7 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
+# DOCKER
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
@@ -91,6 +94,16 @@ CHANNEL_LAYERS = {
         },
     },
 }
+# LOCAL
+# CHANNEL_LAYERS = {
+#     'default': {
+#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
+#         'CONFIG': {
+#             "hosts": [('127.0.0.1', 6379)],
+#         },
+#     },
+# }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
